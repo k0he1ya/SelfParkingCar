@@ -13,7 +13,8 @@ int leftDistance=0;
 int middleDistance=0;
 int backDistance=0;
 int flag=0;
-int space=0;
+unsigned long space=0;
+unsigned long start_time=0;
 
 #define ENB 5
 #define IN1 7
@@ -21,7 +22,7 @@ int space=0;
 #define IN3 9
 #define IN4 11
 #define ENA 6
-#define carSpeed 80
+#define carSpeed 100
 
 void forward(){
   analogWrite(ENA, carSpeed);
@@ -45,8 +46,8 @@ void back() {
 }
 
 void left() {
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, carSpeed);
+  analogWrite(ENA, 450);
+  analogWrite(ENB, 450);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -123,18 +124,27 @@ void loop() {
   }
 
   while(flag==0 && middleDistance >= 20){
+    start_time=millis();
     flag=1;
-    space++;
     forward();
     middleDistance=getDistance();
   }
 
   while(flag==1 && middleDistance <= 20){
+    unsigned long cur_time=millis();
+    space=(cur_time - start_time);
     stop();
     delay(1000);
     digitalWrite(R_LED, LOW);
     delay(500);
-    flag=2;
+    
+    if(space<=2000){
+      flag=2;
+    }
+    else{
+      flag=5;
+    }
+    
     back();
     delay(500);
   }
@@ -163,6 +173,27 @@ void loop() {
     delay(1000);
     digitalWrite(Y_LED, LOW);
     delay(1000);
+  }
+
+  while(flag==5){
+    right();
+    delay(300);
+    flag=6;
+  }
+
+  while(flag==6){
+    back();
+    if(getBackDistance()<=10){
+      stop();
+      delay(1000);
+      digitalWrite(R_LED, LOW);
+      flag=7;
+    }
+  }
+
+  while(flag==7){
+    left();
+    flag=4;
   }
 
 }
