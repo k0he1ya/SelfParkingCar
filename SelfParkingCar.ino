@@ -22,7 +22,7 @@ unsigned long start_time=0;
 #define IN3 9
 #define IN4 11
 #define ENA 6
-#define carSpeed 80
+#define carSpeed 100
 
 void forward(){
   analogWrite(ENA, carSpeed);
@@ -46,8 +46,8 @@ void back() {
 }
 
 void left() {
-  analogWrite(ENA, 435);
-  analogWrite(ENB, 435);
+  analogWrite(ENA, 450);
+  analogWrite(ENB, 450);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -138,11 +138,14 @@ void loop() {
     digitalWrite(R_LED, LOW);
     delay(500);
     
-    if(space<=1500){
+    if(1000<space && space<1300){
       flag=2;
     }
-    else{
+    else if(space >= 1300){
       flag=5;
+    }
+    else{
+      flag=4;
     }
 
     back();
@@ -176,6 +179,8 @@ void loop() {
   }
 
   while(flag==5){
+    back();
+    delay(100);
     right();
     delay(300);
     flag=6;
