@@ -22,7 +22,7 @@ unsigned long start_time=0;
 #define IN3 9
 #define IN4 11
 #define ENA 6
-#define carSpeed 100
+#define carSpeed 80
 
 void forward(){
   analogWrite(ENA, carSpeed);
@@ -46,8 +46,8 @@ void back() {
 }
 
 void left() {
-  analogWrite(ENA, 450);
-  analogWrite(ENB, 450);
+  analogWrite(ENA, 435);
+  analogWrite(ENB, 435);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -138,13 +138,13 @@ void loop() {
     digitalWrite(R_LED, LOW);
     delay(500);
     
-    if(space<=2000){
+    if(space<=1500){
       flag=2;
     }
     else{
       flag=5;
     }
-    
+
     back();
     delay(500);
   }
@@ -160,13 +160,13 @@ void loop() {
     delay(60);
     if(getBackDistance() <= 10){
       stop();
-      delay(1000);
+      //delay(1000);
       digitalWrite(R_LED, LOW);
       flag=4;
     }
   }
 
-  while(flag==4){
+  while(flag==4){ //finish parking mode 
     stop();
     digitalWrite(R_LED, LOW);
     digitalWrite(Y_LED, HIGH);
