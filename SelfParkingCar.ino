@@ -131,6 +131,8 @@ void loop() {
 
   while(flag==1 && middleDistance <= 20){
     stop();
+    delay(1000);
+    digitalWrite(R_LED, LOW);
     delay(500);
     flag=2;
     back();
@@ -148,6 +150,8 @@ void loop() {
     delay(60);
     if(getBackDistance() <= 10){
       stop();
+      delay(1000);
+      digitalWrite(R_LED, LOW);
       flag=4;
     }
   }
