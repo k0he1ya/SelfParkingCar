@@ -46,8 +46,8 @@ void back() {
 }
 
 void left() {
-  analogWrite(ENA, 450);
-  analogWrite(ENB, 450);
+  analogWrite(ENA, 490);
+  analogWrite(ENB, 490);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -112,13 +112,12 @@ void setup() {
 }
 
 void loop() {
-  
-  myservo.write(180); 
+  myservo.write(180);
   delay(500);
-  middleDistance = getDistance();
+  middleDistance=getDistance();
   backDistance=getBackDistance();
 
-  while(flag==0 && middleDistance <= 20){
+  while(flag==0 && middleDistance < 20){
     forward();
     middleDistance=getDistance();
   }
@@ -130,11 +129,10 @@ void loop() {
     middleDistance=getDistance();
   }
 
-  while(flag==1 && middleDistance <= 20){
+  while(flag==1 && middleDistance < 20){
     unsigned long cur_time=millis();
     space=(cur_time - start_time);
     stop();
-    delay(1000);
     digitalWrite(R_LED, LOW);
     delay(500);
     
@@ -160,8 +158,9 @@ void loop() {
 
   while(flag==3){
     back();
-    delay(60);
-    if(getBackDistance() <= 10){
+    delay(100);
+    backDistance=getBackDistance();
+    if(backDistance < 10){
       stop();
       //delay(1000);
       digitalWrite(R_LED, LOW);
@@ -188,7 +187,9 @@ void loop() {
 
   while(flag==6){
     back();
-    if(getBackDistance()<=10){
+    delay(100);
+    backDistance=getBackDistance();
+    if(backDistance < 10){
       stop();
       delay(1000);
       digitalWrite(R_LED, LOW);
