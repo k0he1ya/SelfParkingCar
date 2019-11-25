@@ -36,8 +36,8 @@ void forward(){
 }
 
 void back() {
-  analogWrite(ENA, carSpeed);
-  analogWrite(ENB, carSpeed);
+  analogWrite(ENA, 90);
+  analogWrite(ENB, 90);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
@@ -46,8 +46,8 @@ void back() {
 }
 
 void left() {
-  analogWrite(ENA, 490);
-  analogWrite(ENB, 490);
+  analogWrite(ENA, 485);
+  analogWrite(ENB, 485);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -138,16 +138,19 @@ void loop() {
     
     if(1000<space && space<1300){
       flag=2;
+      back();
+      delay((int)space/2);
     }
     else if(space >= 1300){
       flag=5;
+      back();
+      delay((int)space/3);
     }
     else{
       flag=4;
+      back();
+      delay(500);
     }
-
-    back();
-    delay(500);
   }
 
   while(flag==2){
@@ -158,7 +161,7 @@ void loop() {
 
   while(flag==3){
     back();
-    delay(100);
+    delay(300);
     backDistance=getBackDistance();
     if(backDistance < 10){
       stop();
@@ -178,8 +181,6 @@ void loop() {
   }
 
   while(flag==5){
-    back();
-    delay(100);
     right();
     delay(300);
     flag=6;
@@ -187,9 +188,9 @@ void loop() {
 
   while(flag==6){
     back();
-    delay(100);
+    delay(300);
     backDistance=getBackDistance();
-    if(backDistance < 10){
+    if(backDistance < 15){
       stop();
       delay(1000);
       digitalWrite(R_LED, LOW);
